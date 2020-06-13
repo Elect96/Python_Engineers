@@ -37,4 +37,8 @@ rf = RandomForestClassifier(n_estimators=100)
 # fit() is used to train the algorithm
 rf.fit(input_train, expected_output_train)
 # check the accuracy
+accuracy = rf.score(input_test, expected_output_test)
+print("Accuracy = {}%".format(accuracy * 100))
 
+# save the model to a file
+joblib.dump(rf, "titanic_model_1", compress=9)

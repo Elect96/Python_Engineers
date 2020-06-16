@@ -25,9 +25,9 @@ kf = KFold(5, shuffle=True)
 # random forest
 rf_class = RandomForestClassifier(n_estimators=10)
 # logistic regression
-log_class = LogisticRegression()
+log_class = LogisticRegression(solver="lbfgs", multi_class="auto", max_iter=1000)
 # SVM
-svm_class = svm.SVC()
+svm_class = svm.SVC(gamma="scale")
 
 print("Random Forests: ")
 print(cross_val_score(rf_class, data_input, data_output, scoring="accuracy", cv=10))
@@ -43,8 +43,4 @@ print("\nSVM: ")
 print(cross_val_score(svm_class, data_input, data_output, scoring="accuracy", cv=10))
 accuracy = cross_val_score(svm_class, data_input, data_output, scoring="accuracy", cv=10).mean() * 100
 print("Accuracy of SVM is: ", accuracy)
-
-# fix the warnings by specifying arguments at log_class and svm_class
-# https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
-# https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
 

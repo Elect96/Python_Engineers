@@ -22,6 +22,8 @@ def create_word_features(words):
 neg_tweets = []
 # loop over all the tweets in the negative_tweets
 for tweet in twitter_samples.strings("negative_tweets.json"):
+    # clean the data out of emotes
+    tweet = tweet.replace(":", "").replace(")", "").replace("(", "")
     # get all words in that file
     words = word_tokenize(tweet)
     neg_tweets.append((create_word_features(words), "negative"))
@@ -30,6 +32,8 @@ print("Number of negative tweets:", len(neg_tweets))
 pos_tweets = []
 # loop over all the tweets in the negative_tweets
 for tweet in twitter_samples.strings("positive_tweets.json"):
+    # clean the data out of emotes
+    tweet = tweet.replace(":", "").replace(")", "").replace("(", "")
     # get all words in that file
     words = word_tokenize(tweet)
     pos_tweets.append((create_word_features(words), "positive"))
@@ -46,5 +50,3 @@ classifier = NaiveBayesClassifier.train(train_set)
 # model accuracy
 accuracy = nltk.classify.util.accuracy(classifier, test_set)
 print("Model's accuracy: {}%".format(round(accuracy * 100)))
-
-# clean the data from all the emotes

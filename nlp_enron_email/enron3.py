@@ -17,7 +17,7 @@ def email_analyse(input_file, e_to, e_from, e_body):
 
 
 # root directory
-root_dir = "C:\\Users\\polgl\\Downloads\\enron_mail\\maildir\\lay-k\\family"
+root_dir = "C:\\Users\\polgl\\Downloads\\enron_mail\\maildir\\lay-k"
 # email variables
 email_to_list = []
 email_from_list = []
@@ -45,7 +45,7 @@ with open("email_from_list.txt", "w")as f:
             f.write("\n")
 
 # write email_body_list to a file
-with open("email_body_list.txt", "w")as f:
+with open("ken_lay_emails.txt", "w")as f:
     for email_body in email_body_list:
         if email_body:
             f.write(email_body)

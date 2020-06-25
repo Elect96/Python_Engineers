@@ -1,7 +1,7 @@
 # src: https://www.pythonforengineers.com/analysing-the-enron-email-corpus/
 import os
 from email.parser import Parser
-import Counter
+from collections import Counter
 
 
 # extracts the data from an email
@@ -26,7 +26,7 @@ def email_analyse(input_file, e_to, e_from, e_body):
 
 
 # root directory
-root_dir = "C:\\Users\\polgl\\Downloads\\enron_mail\\maildir\\lay-k\\family"
+root_dir = "C:\\Users\\polgl\\Downloads\\enron_mail\\maildir\\lay-k"
 # email variables
 email_to_list = []
 email_from_list = []
@@ -39,7 +39,5 @@ for directory, subdirectory, file_names in os.walk(root_dir):
         # analyse emails
         email_analyse(os.path.join(directory, file_name), email_to_list, email_from_list, email_body_list)
 
-print("Top 10 most common addressee:", Counter(email_to_list).most_common(10))
-print("Top 10 most common addresser:", Counter(email_from_list).most_common(10))
-
-# fix PyCharm's import counter error https://www.youtube.com/watch?v=RvbUqf3Tb1s
+print("Top 10 most common emails to:", Counter(email_to_list).most_common(10))
+print("Top 10 most common emails from:", Counter(email_from_list).most_common(10))

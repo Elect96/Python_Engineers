@@ -1,10 +1,11 @@
 # src: https://www.pythonforengineers.com/build-a-spam-filter/
 import os
-from nltk.corpus import twitter_samples
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import nltk.classify.util
 from nltk.classify import NaiveBayesClassifier
+import random
+from sklearn.externals import joblib
 
 
 def create_word_features(words):
@@ -13,7 +14,7 @@ def create_word_features(words):
     return my_dict
 
 
-root_dir = "C:\\Users\\polgl\\Downloads\\enron_spam\\"
+root_dir = "C:\\Users\\polgl\\Downloads\\enron_spam\\enron1"
 ham_list = []
 spam_list = []
 
@@ -27,7 +28,7 @@ for directories, subdirectories, files in os.walk(root_dir):
                 # tokenize the data
                 words = word_tokenize(data)
                 # prepare the data to be used for Naive Bayes
-                ham_list.append(create_word_features(words))
+                ham_list.append((create_word_features(words), "ham"))
     # check if spam folder
     if os.path.split(directories)[1] == "spam":
         for filename in files:
@@ -36,12 +37,22 @@ for directories, subdirectories, files in os.walk(root_dir):
                 # tokenize the data
                 words = word_tokenize(data)
                 # prepare the data to be used for Naive Bayes
-                spam_list.append(create_word_features(words))
+                spam_list.append((create_word_features(words), "spam"))
 
+# combine both lists
+combined_list = ham_list + spam_list
+random.shuffle(combined_list)
 
-print(ham_list[0])
-print(spam_list[0])
+# allocate 70% of data for training and 30% for testing
+split_point = int(len(combined_list) * .7)
+train_set = combined_list[:split_point]
+test_set = combined_list[split_point:]
+print(len(train_set), "training samples,", len(test_set), "testing samples.")
 
-# TODO: Create the test/train data
+# train the model
+classifier = NaiveBayesClassifier.train(train_set)
+accuracy = nltk.classify.util.accuracy(classifier, test_set)
+print("Accuracy is:", accuracy * 100)
 
-
+# save the model to a file
+joblib.dump(classifier, "enron_model", compress=9)

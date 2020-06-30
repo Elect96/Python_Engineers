@@ -1,10 +1,10 @@
 # src: https://www.pythonforengineers.com/build-a-spam-filter/
 import os
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
+import random
 import nltk.classify.util
 from nltk.classify import NaiveBayesClassifier
-import random
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 from sklearn.externals import joblib
 
 
@@ -14,7 +14,7 @@ def create_word_features(words):
     return my_dict
 
 
-root_dir = "C:\\Users\\polgl\\Downloads\\enron_spam\\enron1"
+root_dir = "C:\\Users\\polgl\\Downloads\\enron_spam"
 ham_list = []
 spam_list = []
 
